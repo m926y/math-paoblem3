@@ -19,7 +19,7 @@ from xlsx_io import read_sheet, write_xlsx
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT.parent
 OUT = ROOT / "output" / "q2"
-HISTORY_DAYS = 31  # 1月作为预测历史，模板从2月1日开始输出
+HISTORY_DAYS = 31  # 1月实际调度初始化，模板从2月1日开始输出
 WINDOW = 7
 EMERGENCY_MULTIPLIER = 5.0
 SEED = 2026
@@ -80,7 +80,28 @@ def main() -> None:
     emergency_rows = [["日期", "购电时间段", "购电量"]]
     daily_rows = [["日期", "正常购电成本", "紧急购电成本", "紧急购电量", "弃电量", "日总成本", "日终SOC"]]
     all_plans, all_emergencies, all_socs = [], [], []
+
+    # 先用1月实际数据做状态初始化：每一天都根据当日实际负荷、光伏和电价
+    # 求解一次调度，日终储电量传递给下一天。1月31日的日终储电量就是
+    # 2月1日优化的初始储电量，而不是人为再次固定为6000 kWh。
     energy = 6000.0
+    january_initial_energy = energy
+    january_warmup_rows = [["日期", "实际调度正常购电成本", "日终SOC"]]
+    january_warmup_cost = 0.0
+    for day_index in range(HISTORY_DAYS):
+        current_date = date(2025, 1, 1) + timedelta(days=day_index)
+        january_plan = solve_day_dispatch(
+            price,
+            load_kwh[day_index],
+            pv_kwh[day_index],
+            energy,
+            terminal_energy=None,
+        )
+        january_cost = float(np.sum(price * np.asarray(january_plan["grid_plan"])))
+        energy = float(january_plan["soc"][-1])
+        january_warmup_cost += january_cost
+        january_warmup_rows.append([current_date.isoformat(), january_cost, energy])
+    february_initial_energy = energy
 
     for day_index in range(HISTORY_DAYS, 365):
         current_date = date(2025, 1, 1) + timedelta(days=day_index)
@@ -127,6 +148,9 @@ def main() -> None:
         f"output_days={len(all_plans)}",
         f"first_date=2025-02-01",
         f"last_date=2025-12-31",
+        f"january_initial_soc={january_initial_energy:.10f}",
+        f"february_initial_soc={february_initial_energy:.10f}",
+        f"january_warmup_normal_cost={january_warmup_cost:.10f}",
         f"annual_normal_cost={sum(float(row[1]) for row in daily_rows[1:]):.10f}",
         f"annual_emergency_cost={sum(float(row[2]) for row in daily_rows[1:]):.10f}",
         f"annual_emergency_energy={sum(float(row[3]) for row in daily_rows[1:]):.10f}",
@@ -136,6 +160,10 @@ def main() -> None:
         f"emergency_nonzero_intervals={int(np.sum(emergency_array > 1e-8))}",
     ]
     (OUT / "check.txt").write_text("\n".join(checks), encoding="utf-8")
+    (OUT / "january_warmup.csv").write_text(
+        "\n".join(",".join(str(item) for item in row) for row in january_warmup_rows),
+        encoding="utf-8",
+    )
 
     dates = [date(2025, 1, 1) + timedelta(days=i) for i in range(HISTORY_DAYS, 365)]
     daily_normal = np.asarray([float(row[1]) for row in daily_rows[1:]])
