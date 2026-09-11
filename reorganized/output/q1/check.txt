@@ -1,0 +1,5 @@
+objective_cost=35126.9485892896
+max_balance_residual=2.2737367544e-13
+initial_soc=6000.0000000000
+terminal_soc=6000.0000000000
+max_charge_discharge_overlap=0.0000000000e+00

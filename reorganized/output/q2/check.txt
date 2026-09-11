@@ -1,0 +1,10 @@
+output_days=334
+first_date=2025-02-01
+last_date=2025-12-31
+annual_normal_cost=16791804.0118462406
+annual_emergency_cost=2133332.7352199499
+annual_emergency_energy=517558.0045485329
+soc_min=1200.0000000000
+soc_max=10800.0000000000
+plan_min=0.0000000000
+emergency_nonzero_intervals=9207
