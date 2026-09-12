@@ -1,0 +1,28 @@
+{
+  "model": "deterministic rolling-horizon MPC-LP",
+  "output_dates": [
+    "2025-02-01",
+    "2025-12-31"
+  ],
+  "output_days": 334,
+  "plan_energy_kwh": 25846048.37714491,
+  "final_normal_energy_kwh": 24467022.380805943,
+  "emergency_energy_kwh": 173521.8222293376,
+  "plan_cost_cny": 16509724.741900824,
+  "final_normal_cost_cny": 15834080.822756242,
+  "adjustment_penalty_cny": 771356.6423184987,
+  "emergency_cost_cny": 930109.2563066354,
+  "total_cost_cny": 17535546.721381377,
+  "soc_min_kwh": 1200.0,
+  "soc_max_kwh": 10800.0,
+  "max_simultaneous_charge_discharge_kwh": 0.0,
+  "actual_charge_energy_kwh": 5403217.665818552,
+  "actual_discharge_energy_kwh": 4379212.623739851,
+  "total_actual_recourse_energy_kwh": 4783111.850032617,
+  "january_initial_soc": 6000.0,
+  "february_initial_soc": 5876.8435645032405,
+  "january_warmup_cost_cny": 1523248.4237164324,
+  "reserve_fraction": 0.2,
+  "max_actual_balance_residual": 4.547473508864641e-13,
+  "max_soc_recursion_residual": 9.094947017729282e-13
+}

@@ -148,6 +148,9 @@ def simulate_receding_plan(
         energy = float(soc[t])
         charge = float(charge_plan[t])
         discharge = float(discharge_plan[t])
+        # 日前计划基于预测SOC，实际SOC可能不同；先把基线动作截断到当前可行范围。
+        charge = min(charge, max((EMAX - energy) / ETA, 0.0))
+        discharge = min(discharge, max((energy - EMIN) * ETA, 0.0))
         residual = float(load_real_kwh[t] + charge - pv_real_kwh[t] - discharge - grid[t])
 
         if residual > 0.0:
@@ -155,11 +158,11 @@ def simulate_receding_plan(
             cancelled = min(charge, residual)
             charge -= cancelled
             residual -= cancelled
-            energy_after_charge = energy + ETA * charge
+            energy_after_baseline = energy + ETA * charge - discharge / ETA
             extra_discharge = min(
                 Q_MAX_KWH - discharge,
                 residual,
-                max((energy_after_charge - EMIN) * ETA, 0.0),
+                max((energy_after_baseline - EMIN) * ETA, 0.0),
             )
             discharge += extra_discharge
             residual -= extra_discharge
@@ -172,7 +175,7 @@ def simulate_receding_plan(
             extra_charge = min(
                 Q_MAX_KWH - charge,
                 surplus,
-                max((EMAX - energy + discharge / ETA) / ETA, 0.0),
+                max((EMAX - energy - ETA * charge + discharge / ETA) / ETA, 0.0),
             )
             charge += extra_charge
             surplus -= extra_charge
