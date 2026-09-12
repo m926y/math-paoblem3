@@ -38,6 +38,7 @@ SCENARIOS = {
     "q2_engineering_baseline": ROOT / "output" / "engineering_baseline" / "q2",
     "q2_causal_zero": ROOT / "output" / "model_versions" / "q2_causal_zero",
     "q2_causal_baseline": ROOT / "output" / "model_versions" / "q2_causal_baseline",
+    "q2_weekday_optimized": ROOT / "output" / "q2",
     "q3_update_0": ROOT / "output" / "model_versions" / "q3_update_0",
     "q3_update_0_6": ROOT / "output" / "model_versions" / "q3_update_0_6",
     "q3_update_0_6_12": ROOT / "output" / "model_versions" / "q3_update_0_6_12",
@@ -74,6 +75,7 @@ def _run_all() -> None:
          "--output-dir", "output/model_versions/q2_causal_zero"],
         [sys.executable, "run_q2_causal.py", "--cold-start", "baseline",
          "--output-dir", "output/model_versions/q2_causal_baseline"],
+        [sys.executable, "run_q2.py"],
     ]
     for label, hours in (("q3_update_0", "0"), ("q3_update_0_6", "0,6"),
                          ("q3_update_0_6_12", "0,6,12"),
@@ -346,7 +348,8 @@ def main() -> None:
         _constraint_checks(audit, "Q1工程基线", summary)
         _validate_q1_book(audit, SCENARIOS["q1_engineering_baseline"], summary)
         audit.close("Q1工程基线费用回归", summary["objective_cost_cny"], EXPECTED_COSTS["q1"], 0.01)
-    for label in ("q2_engineering_baseline", "q2_causal_zero", "q2_causal_baseline"):
+    for label in ("q2_engineering_baseline", "q2_causal_zero", "q2_causal_baseline",
+                  "q2_weekday_optimized"):
         if label in summaries:
             _constraint_checks(audit, label, summaries[label])
             _validate_q2_book(audit, SCENARIOS[label], summaries[label], price, label)

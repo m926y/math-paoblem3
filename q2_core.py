@@ -7,7 +7,12 @@ from datetime import date
 import numpy as np
 
 from dispatch import DT_H, EMAX, EMIN, simulate_receding_plan, solve_day_dispatch
-from forecast import safe_forecast, safe_forecast_expanding
+from forecast import (
+    safe_forecast,
+    safe_forecast_expanding,
+    safe_weekday_forecast,
+    weekday_prediction_series,
+)
 
 
 HISTORY_DAYS = 31
@@ -149,6 +154,87 @@ def simulate_causal(price: np.ndarray, baseline_load_kw: np.ndarray, baseline_pv
         "january_initial_soc_kwh": 6000.0,
         "february_initial_soc_kwh": float(january[-1]["soc"][-1]),
         "january_warmup_cost_cny": float(sum(r["normal_cost"] + r["emergency_cost"] for r in january)),
+    }
+    return all_records[HISTORY_DAYS:], checks
+
+
+def simulate_weekday_optimized(
+    price: np.ndarray,
+    baseline_load_kw: np.ndarray,
+    baseline_pv_kw: np.ndarray,
+    load_kw: np.ndarray,
+    pv_kw: np.ndarray,
+    cold_start: str = "zero",
+    alpha: float = 0.90,
+    safety_mode: str = "net",
+) -> tuple[list[dict], dict]:
+    """严格因果同星期预测版本，默认采用留出实验选出的0.90分位数。"""
+    if cold_start not in {"zero", "baseline"}:
+        raise ValueError("cold_start必须为zero或baseline")
+    if safety_mode not in {"net", "separate"}:
+        raise ValueError("safety_mode必须为net或separate")
+    if not 0.5 <= alpha < 1.0:
+        raise ValueError("alpha必须位于[0.5,1)内")
+
+    load_kw = np.asarray(load_kw, dtype=float)
+    pv_kw = np.asarray(pv_kw, dtype=float)
+    if load_kw.shape != (365, 144) or pv_kw.shape != (365, 144):
+        raise ValueError("负荷和光伏必须为365×144")
+    load_kwh, pv_kwh = load_kw * DT_H, pv_kw * DT_H
+    actual_kw = np.stack([load_kw, pv_kw])
+    predictions_kw = np.stack([
+        weekday_prediction_series(load_kw),
+        weekday_prediction_series(pv_kw),
+    ])
+
+    energy = 6000.0
+    all_records: list[dict] = []
+    if cold_start == "zero":
+        first = _zero_cold_start(price, load_kwh[0], pv_kwh[0], energy)
+    else:
+        first = _run_day(
+            price,
+            load_kwh[0],
+            pv_kwh[0],
+            energy,
+            np.asarray(baseline_load_kw),
+            np.asarray(baseline_pv_kw),
+        )
+    all_records.append(first)
+    energy = float(first["soc"][-1])
+
+    for day in range(1, 365):
+        _, _, load_safe, pv_safe = safe_weekday_forecast(
+            actual_kw,
+            predictions_kw,
+            day,
+            alpha=alpha,
+            safety_mode=safety_mode,
+        )
+        record = _run_day(
+            price,
+            load_kwh[day],
+            pv_kwh[day],
+            energy,
+            load_safe,
+            pv_safe,
+        )
+        all_records.append(record)
+        energy = float(record["soc"][-1])
+
+    january = all_records[:HISTORY_DAYS]
+    checks = {
+        "model_version": "causal_weekday_four_lag_forecast",
+        "cold_start": cold_start,
+        "forecast_lags_days": [7, 14, 21, 28],
+        "forecast_weights": [0.50, 0.25, 0.15, 0.10],
+        "safety_mode": safety_mode,
+        "safety_quantile": alpha,
+        "january_initial_soc_kwh": 6000.0,
+        "february_initial_soc_kwh": float(january[-1]["soc"][-1]),
+        "january_warmup_cost_cny": float(
+            sum(r["normal_cost"] + r["emergency_cost"] for r in january)
+        ),
     }
     return all_records[HISTORY_DAYS:], checks
 

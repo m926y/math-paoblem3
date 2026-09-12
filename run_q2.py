@@ -1,4 +1,4 @@
-"""问题2主入口：严格因果1月初始化，默认零计划冷启动。"""
+"""问题2主入口：严格因果同星期预测优化模型。"""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from project_io import attachment_paths, file_sha256, read_attachment1, read_attachment2
-from q2_core import simulate_causal, summarize
+from q2_core import simulate_weekday_optimized, summarize
 from q2_output import write_outputs
 
 
@@ -19,14 +19,23 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--attachment-dir", type=Path, default=ROOT / "附件")
     parser.add_argument("--cold-start", choices=("zero", "baseline"), default="zero")
+    parser.add_argument("--quantile", type=float, default=0.90)
+    parser.add_argument("--safety-mode", choices=("net", "separate"), default="net")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "output" / "q2")
     args = parser.parse_args()
     paths = attachment_paths(ROOT, args.attachment_dir)
     print(f"附件目录：{paths['attachment_dir']}")
     price, baseline_load_kw, baseline_pv_kw = read_attachment1(paths["data1"])
     _, load_kw, pv_kw = read_attachment2(paths["data2"])
-    records, checks = simulate_causal(
-        price, baseline_load_kw, baseline_pv_kw, load_kw, pv_kw, args.cold_start
+    records, checks = simulate_weekday_optimized(
+        price=price,
+        baseline_load_kw=baseline_load_kw,
+        baseline_pv_kw=baseline_pv_kw,
+        load_kw=load_kw,
+        pv_kw=pv_kw,
+        cold_start=args.cold_start,
+        alpha=args.quantile,
+        safety_mode=args.safety_mode,
     )
     summary = summarize(records, checks)
     summary["input_sha256"] = {
