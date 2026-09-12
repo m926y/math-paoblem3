@@ -11,7 +11,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from dispatch import DT_H, solve_day_dispatch, simulate_fixed_plan
+from dispatch import DT_H, EMAX, EMIN, simulate_receding_plan, solve_day_dispatch
 from forecast import safe_forecast
 from xlsx_io import read_sheet, write_xlsx
 
@@ -22,6 +22,7 @@ OUT = ROOT / "output" / "q2"
 HISTORY_DAYS = 31  # 1月实际调度初始化，模板从2月1日开始输出
 WINDOW = 7
 EMERGENCY_MULTIPLIER = 5.0
+RESERVE_FRACTION = 0.20  # 下一日高价时段预测净负荷的保留比例
 SEED = 2026
 
 
@@ -58,6 +59,14 @@ def day_blocks(values: np.ndarray, soc: np.ndarray, current_date: date, headers:
     return rows
 
 
+def reserve_target_soc(price: np.ndarray, load_safe_kw: np.ndarray, pv_safe_kw: np.ndarray) -> float:
+    """根据下一日安全预测的高价时段净负荷确定跨日储能保留目标。"""
+    net_need = np.maximum(load_safe_kw - pv_safe_kw, 0.0) * DT_H
+    expensive = price >= np.quantile(price, 0.75)
+    target = EMIN + RESERVE_FRACTION * float(np.sum(net_need[expensive]))
+    return float(np.clip(target, EMIN, EMAX))
+
+
 def main() -> None:
     np.random.seed(SEED)  # 当前预测和优化均为确定性计算
     attachment1 = read_sheet(str(DATA / "附件1.xlsx"), 0)
@@ -78,40 +87,49 @@ def main() -> None:
     plan_rows = [plan_header]
     storage_rows = [["日期", "时间段", "充电量", "放电量", "时刻", "储电量"]]
     emergency_rows = [["日期", "购电时间段", "购电量"]]
-    daily_rows = [["日期", "正常购电成本", "紧急购电成本", "紧急购电量", "弃电量", "日总成本", "日终SOC"]]
-    all_plans, all_emergencies, all_socs = [], [], []
+    daily_rows = [["日期", "正常购电成本", "紧急购电成本", "紧急购电量", "弃电量", "日总成本", "日终计划SOC", "日终实际SOC", "实际再调度电量"]]
+    all_plans, all_plan_charges, all_plan_discharges = [], [], []
+    all_emergencies, all_socs = [], []
 
     # 先用1月实际数据做状态初始化：每一天都根据当日实际负荷、光伏和电价
     # 求解一次调度，日终储电量传递给下一天。1月31日的日终储电量就是
     # 2月1日优化的初始储电量，而不是人为再次固定为6000 kWh。
     energy = 6000.0
     january_initial_energy = energy
-    january_warmup_rows = [["日期", "实际调度正常购电成本", "日终SOC"]]
+    january_warmup_rows = [["日期", "实际调度正常购电成本", "日终SOC", "下一日保留目标"]]
     january_warmup_cost = 0.0
     for day_index in range(HISTORY_DAYS):
         current_date = date(2025, 1, 1) + timedelta(days=day_index)
+        if day_index + 1 >= WINDOW:
+            _, _, next_load_safe_kw, next_pv_safe_kw = safe_forecast(
+                actual_kw, day_index + 1, alpha=0.8, window=WINDOW
+            )
+        else:
+            next_load_safe_kw = load_kw[day_index]
+            next_pv_safe_kw = pv_kw[day_index]
+        terminal_target = reserve_target_soc(price, next_load_safe_kw, next_pv_safe_kw)
         january_plan = solve_day_dispatch(
             price,
             load_kwh[day_index],
             pv_kwh[day_index],
             energy,
-            terminal_energy=None,
+            terminal_energy=terminal_target,
         )
         january_cost = float(np.sum(price * np.asarray(january_plan["grid_plan"])))
         energy = float(january_plan["soc"][-1])
         january_warmup_cost += january_cost
-        january_warmup_rows.append([current_date.isoformat(), january_cost, energy])
+        january_warmup_rows.append([current_date.isoformat(), january_cost, energy, terminal_target])
     february_initial_energy = energy
 
     for day_index in range(HISTORY_DAYS, 365):
         current_date = date(2025, 1, 1) + timedelta(days=day_index)
         _, _, load_safe_kw, pv_safe_kw = safe_forecast(actual_kw, day_index, alpha=0.8, window=WINDOW)
         plan = solve_day_dispatch(price, load_safe_kw * DT_H, pv_safe_kw * DT_H, energy, terminal_energy=None)
-        simulation = simulate_fixed_plan(plan, load_kwh[day_index], pv_kwh[day_index])
+        simulation = simulate_receding_plan(plan, load_kwh[day_index], pv_kwh[day_index], energy)
         grid = np.asarray(plan["grid_plan"])
-        charge = np.asarray(plan["charge"])
-        discharge = np.asarray(plan["discharge"])
-        soc = np.asarray(plan["soc"])
+        charge = np.asarray(simulation["charge"])
+        discharge = np.asarray(simulation["discharge"])
+        soc = np.asarray(simulation["soc"])
         emergency = np.asarray(simulation["emergency"])
         actual_spill = np.asarray(simulation["actual_spill"])
         normal_cost = float(np.sum(price * grid))
@@ -123,8 +141,19 @@ def main() -> None:
         for t, quantity in enumerate(emergency):
             if quantity > 1e-8:
                 emergency_rows.append([current_date.isoformat(), interval_labels()[t], float(quantity)])
-        daily_rows.append([current_date.isoformat(), normal_cost, emergency_cost, float(np.sum(emergency)), float(np.sum(actual_spill)), total_cost, float(soc[-1])])
+        planned_soc = np.asarray(plan["soc"])
+        recourse_energy = float(
+            np.sum(np.abs(charge - np.asarray(plan["charge"])))
+            + np.sum(np.abs(discharge - np.asarray(plan["discharge"])))
+        )
+        daily_rows.append([
+            current_date.isoformat(), normal_cost, emergency_cost,
+            float(np.sum(emergency)), float(np.sum(actual_spill)), total_cost,
+            float(planned_soc[-1]), float(soc[-1]), recourse_energy,
+        ])
         all_plans.append(grid)
+        all_plan_charges.append(np.asarray(plan["charge"]))
+        all_plan_discharges.append(np.asarray(plan["discharge"]))
         all_emergencies.append(emergency)
         all_socs.append(soc)
         energy = float(soc[-1])
@@ -138,6 +167,8 @@ def main() -> None:
     ]))
 
     plan_array = np.asarray(all_plans)
+    plan_charge_array = np.asarray(all_plan_charges)
+    plan_discharge_array = np.asarray(all_plan_discharges)
     emergency_array = np.asarray(all_emergencies)
     soc_array = np.asarray(all_socs)
     daily = np.asarray(daily_rows[1:], dtype=object)
@@ -151,11 +182,15 @@ def main() -> None:
         f"january_initial_soc={january_initial_energy:.10f}",
         f"february_initial_soc={february_initial_energy:.10f}",
         f"january_warmup_normal_cost={january_warmup_cost:.10f}",
+        f"january_reserve_fraction={RESERVE_FRACTION:.10f}",
         f"annual_normal_cost={sum(float(row[1]) for row in daily_rows[1:]):.10f}",
         f"annual_emergency_cost={sum(float(row[2]) for row in daily_rows[1:]):.10f}",
         f"annual_emergency_energy={sum(float(row[3]) for row in daily_rows[1:]):.10f}",
+        f"planned_charge_energy={plan_charge_array.sum():.10f}",
+        f"planned_discharge_energy={plan_discharge_array.sum():.10f}",
         f"soc_min={soc_array.min():.10f}",
         f"soc_max={soc_array.max():.10f}",
+        f"total_actual_recourse_energy={sum(float(row[8]) for row in daily_rows[1:]):.10f}",
         f"plan_min={plan_array.min():.10f}",
         f"emergency_nonzero_intervals={int(np.sum(emergency_array > 1e-8))}",
     ]

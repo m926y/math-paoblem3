@@ -112,3 +112,84 @@ def simulate_fixed_plan(plan: dict[str, np.ndarray | float], load_real_kwh: np.n
     emergency = np.maximum(residual, 0.0)
     spill = np.maximum(-residual, 0.0)
     return {"emergency": emergency, "actual_spill": spill, "shortage_max": float(emergency.max(initial=0.0))}
+
+
+def simulate_receding_plan(
+    plan: dict[str, np.ndarray | float],
+    load_real_kwh: np.ndarray,
+    pv_real_kwh: np.ndarray,
+    initial_energy: float,
+) -> dict[str, np.ndarray | float]:
+    """按日前购电计划运行，并根据实际负荷/光伏对储能做有限再调度。
+
+    正常购电量保持日前计划不变。实际偏差优先通过取消相反方向的计划动作、
+    再使用剩余充放电能力进行修正，最后才产生紧急购电或弃电。SOC按实际动作
+    闭环更新，日终实际SOC可传递给下一天。
+    """
+    grid = np.asarray(plan["grid_plan"], dtype=float)
+    charge_plan = np.asarray(plan["charge"], dtype=float)
+    discharge_plan = np.asarray(plan["discharge"], dtype=float)
+    load_real_kwh = np.asarray(load_real_kwh, dtype=float)
+    pv_real_kwh = np.asarray(pv_real_kwh, dtype=float)
+    if not (grid.shape == charge_plan.shape == discharge_plan.shape == load_real_kwh.shape == pv_real_kwh.shape):
+        raise ValueError("日前计划和实际数据长度必须相同")
+    if not EMIN - 1e-8 <= initial_energy <= EMAX + 1e-8:
+        raise ValueError("实际运行初始SOC超出允许范围")
+
+    actual_charge = np.zeros_like(charge_plan)
+    actual_discharge = np.zeros_like(discharge_plan)
+    emergency = np.zeros_like(grid)
+    spill = np.zeros_like(grid)
+    soc = np.empty(len(grid) + 1, dtype=float)
+    soc[0] = initial_energy
+
+    for t in range(len(grid)):
+        energy = float(soc[t])
+        charge = float(charge_plan[t])
+        discharge = float(discharge_plan[t])
+        residual = float(load_real_kwh[t] + charge - pv_real_kwh[t] - discharge - grid[t])
+
+        if residual > 0.0:
+            # 实际负荷偏大或光伏偏小时，先取消原计划充电，再增加放电。
+            cancelled = min(charge, residual)
+            charge -= cancelled
+            residual -= cancelled
+            energy_after_charge = energy + ETA * charge
+            extra_discharge = min(
+                Q_MAX_KWH - discharge,
+                residual,
+                max((energy_after_charge - EMIN) * ETA, 0.0),
+            )
+            discharge += extra_discharge
+            residual -= extra_discharge
+        elif residual < 0.0:
+            # 实际负荷偏小或光伏偏大时，先取消原计划放电，再增加充电。
+            surplus = -residual
+            cancelled = min(discharge, surplus)
+            discharge -= cancelled
+            surplus -= cancelled
+            extra_charge = min(
+                Q_MAX_KWH - charge,
+                surplus,
+                max((EMAX - energy + discharge / ETA) / ETA, 0.0),
+            )
+            charge += extra_charge
+            surplus -= extra_charge
+            residual = -surplus
+
+        actual_charge[t] = charge
+        actual_discharge[t] = discharge
+        emergency[t] = max(residual, 0.0)
+        spill[t] = max(-residual, 0.0)
+        soc[t + 1] = energy + ETA * charge - discharge / ETA
+        soc[t + 1] = min(max(soc[t + 1], EMIN), EMAX)
+
+    return {
+        "grid": grid,
+        "charge": actual_charge,
+        "discharge": actual_discharge,
+        "emergency": emergency,
+        "actual_spill": spill,
+        "soc": soc,
+        "shortage_max": float(emergency.max(initial=0.0)),
+    }
