@@ -1,0 +1,17 @@
+﻿[
+    "run_q2.py",
+    "run_q2_causal.py",
+    "run_q2_legacy.py",
+    "q2_output.py",
+    "q3_xlsx_io.py",
+    "xlsx_io.py",
+    "validate_project.py",
+    "q3_summary_新版.json",
+    "codex_lyz_202609121914.md",
+    "output/validation_report.md",
+    "output/validation_report.json",
+    "output/baseline/q3/result.xlsx",
+    "output/baseline/q2/check.txt",
+    "output/engineering_baseline",
+    "output/model_versions"
+]

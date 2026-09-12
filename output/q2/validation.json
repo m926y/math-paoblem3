@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "365天144段与145储能点",
+      "passed": true
+    },
+    {
+      "name": "全部数据有限",
+      "passed": true
+    },
+    {
+      "name": "非负电量",
+      "passed": true
+    },
+    {
+      "name": "供需平衡",
+      "passed": true
+    },
+    {
+      "name": "储能递推",
+      "passed": true
+    },
+    {
+      "name": "跨日状态连续",
+      "passed": true
+    },
+    {
+      "name": "物理边界",
+      "passed": true
+    },
+    {
+      "name": "充放电互斥",
+      "passed": true
+    },
+    {
+      "name": "独立核算 normal_cost_cny",
+      "passed": true
+    },
+    {
+      "name": "独立核算 adjustment_cost_cny",
+      "passed": true
+    },
+    {
+      "name": "独立核算 emergency_cost_cny",
+      "passed": true
+    },
+    {
+      "name": "独立核算 total_cost_cny",
+      "passed": true
+    },
+    {
+      "name": "计划购电量时段",
+      "passed": true
+    },
+    {
+      "name": "计划购电量天数",
+      "passed": true
+    },
+    {
+      "name": "计划购电量日期完整",
+      "passed": true
+    },
+    {
+      "name": "计划购电量逐段对应轨迹",
+      "passed": true
+    },
+    {
+      "name": "计划购电量逐日费用",
+      "passed": true
+    },
+    {
+      "name": "充放电表完整",
+      "passed": true
+    },
+    {
+      "name": "储能表按4小时块对应",
+      "passed": true
+    },
+    {
+      "name": "储能表日初日末电量",
+      "passed": true
+    },
+    {
+      "name": "紧急购电表总量",
+      "passed": true
+    },
+    {
+      "name": "计划仅规定发布时间",
+      "passed": true
+    },
+    {
+      "name": "执行购电对应最近已发布计划",
+      "passed": true
+    }
+  ],
+  "validator_sha256": "afb327b111f15be848ff24d10474e968da21ac98800b29726d5583ebe95df485",
+  "validated_files_sha256": {
+    "trace.npz": "2a0656255741764a6b7b0e6a4b14b7ea89c9895e9ee1710bf79c0f72e920c4d8",
+    "result2.xlsx": "9c83e9408d55f73f42bd1bb5f8d97237ed478aaf525da718b36d144a42728de4",
+    "summary.json": "887ea27c0d690c3ab1a7b01b6115eb652fb135ae7e075e26a84a437b0dcb5ced"
+  }
+}

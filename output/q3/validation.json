@@ -1,0 +1,123 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "365天144段与145储能点",
+      "passed": true
+    },
+    {
+      "name": "全部数据有限",
+      "passed": true
+    },
+    {
+      "name": "非负电量",
+      "passed": true
+    },
+    {
+      "name": "供需平衡",
+      "passed": true
+    },
+    {
+      "name": "储能递推",
+      "passed": true
+    },
+    {
+      "name": "跨日状态连续",
+      "passed": true
+    },
+    {
+      "name": "物理边界",
+      "passed": true
+    },
+    {
+      "name": "充放电互斥",
+      "passed": true
+    },
+    {
+      "name": "独立核算 normal_cost_cny",
+      "passed": true
+    },
+    {
+      "name": "独立核算 adjustment_cost_cny",
+      "passed": true
+    },
+    {
+      "name": "独立核算 emergency_cost_cny",
+      "passed": true
+    },
+    {
+      "name": "独立核算 total_cost_cny",
+      "passed": true
+    },
+    {
+      "name": "计划购电量时段",
+      "passed": true
+    },
+    {
+      "name": "计划购电量天数",
+      "passed": true
+    },
+    {
+      "name": "计划购电量日期完整",
+      "passed": true
+    },
+    {
+      "name": "计划购电量逐段对应轨迹",
+      "passed": true
+    },
+    {
+      "name": "计划购电量逐日费用",
+      "passed": true
+    },
+    {
+      "name": "调整购电量时段",
+      "passed": true
+    },
+    {
+      "name": "调整购电量天数",
+      "passed": true
+    },
+    {
+      "name": "调整购电量日期完整",
+      "passed": true
+    },
+    {
+      "name": "调整购电量逐段对应轨迹",
+      "passed": true
+    },
+    {
+      "name": "调整购电量逐日费用",
+      "passed": true
+    },
+    {
+      "name": "充放电表完整",
+      "passed": true
+    },
+    {
+      "name": "储能表按4小时块对应",
+      "passed": true
+    },
+    {
+      "name": "储能表日初日末电量",
+      "passed": true
+    },
+    {
+      "name": "紧急购电表总量",
+      "passed": true
+    },
+    {
+      "name": "计划仅规定发布时间",
+      "passed": true
+    },
+    {
+      "name": "执行购电对应最近已发布计划",
+      "passed": true
+    }
+  ],
+  "validator_sha256": "afb327b111f15be848ff24d10474e968da21ac98800b29726d5583ebe95df485",
+  "validated_files_sha256": {
+    "trace.npz": "c36622dd74e2c1f5f366d6b9a698280bff3f726d436896532800e6b968d94cd2",
+    "result3.xlsx": "9191e87604565d326fdfe49deb2f5f82b9364bf83dbe65abc6501edcf097dd89",
+    "summary.json": "a8fca6f46c335af0f25ff778a2f8b67b50573cf60aaa51025dd8178da13f5854"
+  }
+}
