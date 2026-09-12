@@ -1,0 +1,49 @@
+{
+  "model": "causal rolling-horizon MPC with real-time storage recourse",
+  "output_dates": [
+    "2025-02-01",
+    "2025-12-31"
+  ],
+  "output_days": 334,
+  "plan_energy_kwh": 25835687.393650103,
+  "final_normal_energy_kwh": 25289527.07606711,
+  "emergency_energy_kwh": 234504.32197959573,
+  "plan_cost_cny": 16504904.233776804,
+  "final_normal_cost_cny": 16141393.788722338,
+  "adjustment_cost_cny": 617393.4012361304,
+  "emergency_cost_cny": 1448092.4985751025,
+  "total_cost_cny": 18206879.68853357,
+  "january_warmup_cost_cny": 2302715.916734348,
+  "full_year_cost_cny": 20509595.605267916,
+  "actual_charge_energy_kwh": 5397806.551545482,
+  "actual_discharge_energy_kwh": 4379056.455552169,
+  "actual_recourse_energy_kwh": 5861050.834066177,
+  "actual_spill_energy_kwh": 6566091.807086726,
+  "soc_min_kwh": 1200.000001,
+  "soc_max_kwh": 10799.999999,
+  "soc_lower_bound_kwh": 1200.0,
+  "soc_upper_bound_kwh": 10800.0,
+  "soc_lower_violation_kwh": 0.0,
+  "soc_upper_violation_kwh": 0.0,
+  "soc_numerical_guard_kwh": 1e-06,
+  "max_simultaneous_charge_discharge_kwh": 0.0,
+  "mean_absolute_load_nowcast_bias_kw": 136.94646829446106,
+  "january_initial_soc_kwh": 6000.0,
+  "february_initial_soc_kwh": 10667.922771745201,
+  "max_plan_balance_residual_kwh": 3.410605131648481e-13,
+  "max_plan_soc_residual_kwh": 1.0231815394945443e-12,
+  "max_actual_balance_residual_kwh": 4.547473508864641e-13,
+  "max_actual_soc_residual_kwh": 9.094947017729282e-13,
+  "update_hours": [
+    0,
+    6
+  ],
+  "terminal_value_factor": 0.0,
+  "terminal_value_per_kwh": 0.0,
+  "input_sha256": {
+    "附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "附件3.xlsx": "8a61b06c52bd0d639a1cc37c61a7d9f5b75edcbca718f64c1bd3498ec9f9d843"
+  },
+  "template_sha256": "c59da470cabd0be23f602c95c8aa9d11ec224a0cdac216b3e1f218e65d006bdc"
+}
