@@ -1,0 +1,13 @@
+output_days=334
+first_date=2025-02-01
+last_date=2025-12-31
+january_initial_soc=6000.0000000000
+february_initial_soc=1200.0000000000
+january_warmup_normal_cost=1523395.4072757741
+annual_normal_cost=16794096.3618462421
+annual_emergency_cost=2133332.7352199508
+annual_emergency_energy=517558.0045485332
+soc_min=1200.0000000000
+soc_max=10800.0000000000
+plan_min=0.0000000000
+emergency_nonzero_intervals=9207
