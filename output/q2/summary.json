@@ -1,0 +1,169 @@
+{
+  "question": 2,
+  "output_days": 334,
+  "output_dates": [
+    "2025-02-01",
+    "2025-12-31"
+  ],
+  "total_cost_cny": 14084759.69113373,
+  "january_warmup_cost_cny": 2496797.13169753,
+  "full_year_cost_cny": 16581556.82283126,
+  "february_initial_energy_kwh": 3156.1492838111103,
+  "terminal_energy_kwh": 1788.5659270866913,
+  "normal_energy_kwh": 21999843.49061593,
+  "emergency_energy_kwh": 93712.21744733241,
+  "unused_supply_energy_kwh": 2971082.880161712,
+  "charge_energy_kwh": 6234285.041873392,
+  "discharge_energy_kwh": 5051001.708938505,
+  "energy_min_kwh": 1200.0000009999999,
+  "energy_max_kwh": 10799.999999,
+  "max_balance_residual_kwh": 4.547473508864641e-13,
+  "max_storage_residual_kwh": 9.094947017729282e-13,
+  "max_plan_residual_kwh": 3.637978807091713e-12,
+  "max_charge_discharge_overlap_kwh": 0.0,
+  "net_mae_kw": 274.5815199549938,
+  "net_rmse_kw": 393.9792477476907,
+  "net_bias_kw": 1.7884884192834443,
+  "peak_net_mae_kw": 270.03997295719716,
+  "empirical_margin_coverage": 0.6524035262807718,
+  "worst_daily_cost_cny": 97091.3745277524,
+  "updates_accepted": 0,
+  "sequential_adjustment_fee_cny": 0.0,
+  "normal_cost_cny": 13552257.63302392,
+  "adjustment_cost_cny": 0.0,
+  "emergency_cost_cny": 532502.0581098103,
+  "sequential_fee_total_cost_cny": 14084759.69113373,
+  "config": {
+    "name": "scenario5",
+    "forecast": "adaptive",
+    "mode": "scenario",
+    "quantile": 0.65,
+    "history_days": 56,
+    "half_life": 28,
+    "scenarios": 5,
+    "cvar_weight": 0,
+    "cvar_beta": 0.9,
+    "reserve_factor": 0,
+    "reserve_price": 0.3,
+    "update_hours": [
+      0,
+      6,
+      12,
+      18
+    ],
+    "update_pv": true,
+    "update_load": true,
+    "trigger": false,
+    "lexicographic": true
+  },
+  "runtime_seconds": 14.239120199999888,
+  "initial_energy_policy": "continuous_january",
+  "input_sha256": {
+    "附件1.xlsx": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "附件2.xlsx": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72"
+  },
+  "template_sha256": "1c26494cfc6d754e0bd9bff7e13e1126a73d2d2da6c5336eb251d89b9a1a1a47",
+  "source_sha256": {
+    "baseline_q2.py": "a667402cc1fd3f4f0df7eaf277c2693f5cbd7a59bbc4d2f783301e882d1fcc04",
+    "baseline_q3.py": "5a1e971058837a1b945a492ca97bd8a8060e023f90379f2abdde3ea4674df282",
+    "config.py": "d4af6760988f8a30cc31934b7334ceb82a537e9461a4ea0973909cfff0fe2867",
+    "dispatch.py": "d7151da96eacfebf350535153d0a7b4eb89d5208eb0f52945016dc9b27be2952",
+    "experiments.py": "1d1ec30c92e7e82cabddc966bf5268a144896a1ede4239ea2a60d38894e8836d",
+    "forecast.py": "a27d1b17d95b6d784d4f3ec3db4cf8422337ee9ca7b4eaa929b0562e43e5b196",
+    "io.py": "4751ae987b9a1e3510fd2bdeaf7fc86cea97f6934f8c870cffa5576721249eac",
+    "legacy_dispatch.py": "50d7500313516b2f592584ea51247cde0af30e9bb183d1b62182984ce29bf33c",
+    "legacy_forecast.py": "e9f1e4e2ed6722f470d82281b004adea4f93f6fa150c45c9ee5de70f7c3d69bb",
+    "legacy_q3_dispatch.py": "88a0f6b4d222baaafca87663e59c8cd627f1f5832b40ab84790857b6070ea379",
+    "legacy_q3_forecast.py": "a9724fe38db95c183d37025d4f5b8d1ed8f4bbd36616802dd735ce487298006d",
+    "q1.py": "a3029b4cfd27a0f57f30163cfd07b0975995335e0944c7c32558818ba686f726",
+    "reporting.py": "62741356ca7bfd778a65e50de4eb96ebc034cc3816837aa75d8baef3d6140a15",
+    "settlement.py": "c16759861b1487cc8bc15d2e1eba859f721757ce4ad03396dde852dde9352da8",
+    "simulation.py": "88a1eab4a9dbad80b4ff1a407e6e32ce88b8ac50a6ccc2dbc363daef1d01159d",
+    "timegrid.py": "0f5dbaccfa28cc3169737503a5a09a8413920a4a0e3594383a3fb507985366e3",
+    "validation.py": "0d5052bcdc6e8f3960088b27a47038d07adae854938d6c023c1e4c8d0d5aa931",
+    "__init__.py": "1911688036fd33dc7593afe79777da28e53289c81b902ed267dba836b9a93189"
+  },
+  "time_convention": "end sample represents preceding 10-minute interval; Q1 unchanged",
+  "monthly_metrics": [
+    {
+      "month": 2,
+      "total_cost_cny": 1273904.3018132388,
+      "net_mae_kw": 212.10039292410713,
+      "net_rmse_kw": 296.0028738474828,
+      "net_bias_kw": -89.97421290873011
+    },
+    {
+      "month": 3,
+      "total_cost_cny": 1144238.7275839108,
+      "net_mae_kw": 239.5865803554931,
+      "net_rmse_kw": 351.222983338412,
+      "net_bias_kw": -53.79078230425941
+    },
+    {
+      "month": 4,
+      "total_cost_cny": 963145.2799170774,
+      "net_mae_kw": 249.04776008714043,
+      "net_rmse_kw": 371.8967722632654,
+      "net_bias_kw": -7.164382288137376
+    },
+    {
+      "month": 5,
+      "total_cost_cny": 1003320.2675080516,
+      "net_mae_kw": 295.33503742110895,
+      "net_rmse_kw": 410.472299213324,
+      "net_bias_kw": 50.86252956385966
+    },
+    {
+      "month": 6,
+      "total_cost_cny": 1477053.3815586644,
+      "net_mae_kw": 362.1702321180493,
+      "net_rmse_kw": 520.0314471564125,
+      "net_bias_kw": 99.34190031341633
+    },
+    {
+      "month": 7,
+      "total_cost_cny": 1603665.9299551584,
+      "net_mae_kw": 377.72087455122306,
+      "net_rmse_kw": 496.7213036465,
+      "net_bias_kw": 62.585996307662406
+    },
+    {
+      "month": 8,
+      "total_cost_cny": 1299563.451946689,
+      "net_mae_kw": 300.3517177375318,
+      "net_rmse_kw": 416.8139856092072,
+      "net_bias_kw": -52.127181442273226
+    },
+    {
+      "month": 9,
+      "total_cost_cny": 1179354.9724633186,
+      "net_mae_kw": 348.48207250982733,
+      "net_rmse_kw": 478.91269053248635,
+      "net_bias_kw": -74.0511284552679
+    },
+    {
+      "month": 10,
+      "total_cost_cny": 1135227.0629296002,
+      "net_mae_kw": 231.20710121490148,
+      "net_rmse_kw": 339.3941167048552,
+      "net_bias_kw": -7.056031190441681
+    },
+    {
+      "month": 11,
+      "total_cost_cny": 1268037.5571327573,
+      "net_mae_kw": 183.94443904290293,
+      "net_rmse_kw": 250.82608968619493,
+      "net_bias_kw": 34.59645698136273
+    },
+    {
+      "month": 12,
+      "total_cost_cny": 1737248.7583252636,
+      "net_mae_kw": 215.86583550539729,
+      "net_rmse_kw": 295.5178455878595,
+      "net_bias_kw": 49.03991090235221
+    }
+  ],
+  "baseline_total_cost_cny": 18696518.487882376,
+  "saving_cny": 4611758.796748646,
+  "saving_fraction": 0.24666404067354186
+}

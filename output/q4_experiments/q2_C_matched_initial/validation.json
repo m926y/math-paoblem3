@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "checks": {
+    "finite": true,
+    "shapes": true,
+    "nonnegative": true,
+    "balance": true,
+    "storage": true,
+    "continuity": true,
+    "bounds": true,
+    "mutual_exclusion": true,
+    "plan_residual": true,
+    "fixed_day_orders": true,
+    "normal_cost_cny": true,
+    "adjustment_cost_cny": true,
+    "emergency_cost_cny": true,
+    "total_cost_cny": true
+  },
+  "max_balance_residual_kwh": 4.547473508864641e-13,
+  "max_storage_residual_kwh": 9.094947017729282e-13
+}

@@ -1,0 +1,241 @@
+{
+  "chosen": {
+    "price_method": "weighted",
+    "quantile": 0.65,
+    "variant": "C0",
+    "scenarios": 5,
+    "beta": 0.9,
+    "risk_weight": 0
+  },
+  "candidates": [
+    {
+      "question": 3,
+      "config": {
+        "price_method": "weighted",
+        "quantile": 0.65,
+        "variant": "C_fixed",
+        "scenarios": 5,
+        "beta": 0.9,
+        "risk_weight": 0
+      },
+      "output_days": 31,
+      "total_cost_cny": 2675915.693243673,
+      "january_warmup_cost_cny": 2675915.693243673,
+      "february_initial_energy_kwh": 6000.0,
+      "terminal_energy_kwh": 4347.709631021522,
+      "worst_daily_cost_cny": 423086.4059909256,
+      "daily_cost_p95_cny": 117198.59580827886,
+      "runtime_seconds": 28.203555300016887,
+      "initial_energy_policy": "continuous_january",
+      "price_mae": 0.0760220293637175,
+      "max_plan_residual_kwh": 3.637978807091713e-12,
+      "normal_cost_cny": 2016892.9939293573,
+      "adjustment_cost_cny": 81154.50066481878,
+      "emergency_cost_cny": 577868.1986494968,
+      "grid_energy_kwh": 2759354.169874097,
+      "charge_energy_kwh": 549854.1195955551,
+      "discharge_energy_kwh": 446868.8982044803,
+      "emergency_energy_kwh": 111881.67963246773,
+      "spill_energy_kwh": 434627.9844654899,
+      "monthly": [
+        {
+          "month": 2,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 3,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 4,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 5,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 6,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 7,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 8,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 9,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 10,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 11,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 12,
+          "total_cost_cny": 0.0
+        }
+      ]
+    },
+    {
+      "question": 3,
+      "config": {
+        "price_method": "weighted",
+        "quantile": 0.65,
+        "variant": "C0",
+        "scenarios": 5,
+        "beta": 0.9,
+        "risk_weight": 0
+      },
+      "output_days": 31,
+      "total_cost_cny": 2733162.5007753693,
+      "january_warmup_cost_cny": 2733162.5007753693,
+      "february_initial_energy_kwh": 6000.0,
+      "terminal_energy_kwh": 4908.97474172469,
+      "worst_daily_cost_cny": 423086.4059909256,
+      "daily_cost_p95_cny": 115037.56787332571,
+      "runtime_seconds": 28.86946449999232,
+      "initial_energy_policy": "continuous_january",
+      "price_mae": 0.0760220293637175,
+      "max_plan_residual_kwh": 9.094947017729282e-12,
+      "normal_cost_cny": 2080117.657503156,
+      "adjustment_cost_cny": 111946.75092367295,
+      "emergency_cost_cny": 541098.0923485403,
+      "grid_energy_kwh": 2835243.5749331233,
+      "charge_energy_kwh": 565533.7678487462,
+      "discharge_energy_kwh": 459064.2746899321,
+      "emergency_energy_kwh": 106007.09056455345,
+      "spill_energy_kwh": 501158.52868886356,
+      "monthly": [
+        {
+          "month": 2,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 3,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 4,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 5,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 6,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 7,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 8,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 9,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 10,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 11,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 12,
+          "total_cost_cny": 0.0
+        }
+      ]
+    },
+    {
+      "question": 3,
+      "config": {
+        "price_method": "weighted",
+        "quantile": 0.65,
+        "variant": "C15",
+        "scenarios": 5,
+        "beta": 0.9,
+        "risk_weight": 0.15
+      },
+      "output_days": 31,
+      "total_cost_cny": 2798294.3738214364,
+      "january_warmup_cost_cny": 2798294.373821436,
+      "february_initial_energy_kwh": 6000.0,
+      "terminal_energy_kwh": 5099.868469095896,
+      "worst_daily_cost_cny": 423086.4059909256,
+      "daily_cost_p95_cny": 110591.07724804677,
+      "runtime_seconds": 26.63012030001846,
+      "initial_energy_policy": "continuous_january",
+      "price_mae": 0.0760220293637175,
+      "max_plan_residual_kwh": 3.637978807091713e-12,
+      "normal_cost_cny": 2148795.504880541,
+      "adjustment_cost_cny": 146167.59637172634,
+      "emergency_cost_cny": 503331.2725691685,
+      "grid_energy_kwh": 2901950.4229376563,
+      "charge_energy_kwh": 550294.045237614,
+      "discharge_energy_kwh": 446548.295020281,
+      "emergency_energy_kwh": 100209.53097069295,
+      "spill_energy_kwh": 564791.560041016,
+      "monthly": [
+        {
+          "month": 2,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 3,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 4,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 5,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 6,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 7,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 8,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 9,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 10,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 11,
+          "total_cost_cny": 0.0
+        },
+        {
+          "month": 12,
+          "total_cost_cny": 0.0
+        }
+      ]
+    }
+  ],
+  "selection_period": "January only"
+}

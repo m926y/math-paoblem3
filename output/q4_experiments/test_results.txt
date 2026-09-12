@@ -1,0 +1,21 @@
+test_causal_forecasts_and_cross_day (test_models.ModelTests.test_causal_forecasts_and_cross_day) ... ok
+test_cvar_reserve (test_models.ModelTests.test_cvar_reserve) ... ok
+test_execution_prefix_invariance (test_models.ModelTests.test_execution_prefix_invariance) ... ok
+test_extreme_execution (test_models.ModelTests.test_extreme_execution) ... ok
+test_joint_error_cancels (test_models.ModelTests.test_joint_error_cancels) ... ok
+test_lexicographic_no_overlap (test_models.ModelTests.test_lexicographic_no_overlap) ... ok
+test_published_plan_future_invariance (test_models.ModelTests.test_published_plan_future_invariance) ... ok
+test_repeated_revision_and_cross_price_emergency (test_models.ModelTests.test_repeated_revision_and_cross_price_emergency) ... ok
+test_scenario_price_tradeoff (test_models.ModelTests.test_scenario_price_tradeoff) ... ok
+test_settlement_cases (test_models.ModelTests.test_settlement_cases) ... ok
+test_time_grid_and_pulse (test_models.ModelTests.test_time_grid_and_pulse) ... ok
+test_absolute_cross_day_price (test_q4.Q4Tests.test_absolute_cross_day_price) ... ok
+test_causal_full_plans_and_physics (test_q4.Q4Tests.test_causal_full_plans_and_physics) ... ok
+test_price_net_dependence_changes_order (test_q4.Q4Tests.test_price_net_dependence_changes_order) ... ok
+test_q2_freeze (test_q4.Q4Tests.test_q2_freeze) ... ok
+test_risk_and_adjustment (test_q4.Q4Tests.test_risk_and_adjustment) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 4.310s
+
+OK

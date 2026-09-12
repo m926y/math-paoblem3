@@ -1,0 +1,102 @@
+{
+  "question": 3,
+  "config": {
+    "price_method": "weighted",
+    "quantile": 0.65,
+    "variant": "C0",
+    "scenarios": 5,
+    "beta": 0.9,
+    "risk_weight": 0
+  },
+  "output_days": 334,
+  "total_cost_cny": 14610493.053526614,
+  "january_warmup_cost_cny": 2733162.5007753693,
+  "february_initial_energy_kwh": 2379.470316116976,
+  "terminal_energy_kwh": 1852.042512507419,
+  "worst_daily_cost_cny": 79680.21451192338,
+  "daily_cost_p95_cny": 74395.4761702294,
+  "runtime_seconds": 219.33875980001176,
+  "initial_energy_policy": "fixed_B_february",
+  "price_mae": 0.06691694944025275,
+  "max_plan_residual_kwh": 9.094947017729282e-12,
+  "normal_cost_cny": 13950360.143403942,
+  "adjustment_cost_cny": 554640.7932233501,
+  "emergency_cost_cny": 105492.1168993213,
+  "grid_energy_kwh": 21394661.919463154,
+  "charge_energy_kwh": 6430625.006939668,
+  "discharge_energy_kwh": 5209280.940644379,
+  "emergency_energy_kwh": 23879.045212591875,
+  "spill_energy_kwh": 2258007.403413784,
+  "monthly": [
+    {
+      "month": 2,
+      "total_cost_cny": 1363174.9574418955
+    },
+    {
+      "month": 3,
+      "total_cost_cny": 1132086.3877234382
+    },
+    {
+      "month": 4,
+      "total_cost_cny": 925145.0003144543
+    },
+    {
+      "month": 5,
+      "total_cost_cny": 949144.2136029999
+    },
+    {
+      "month": 6,
+      "total_cost_cny": 1431596.7549338404
+    },
+    {
+      "month": 7,
+      "total_cost_cny": 1760577.3302526984
+    },
+    {
+      "month": 8,
+      "total_cost_cny": 1455567.4839415294
+    },
+    {
+      "month": 9,
+      "total_cost_cny": 1154301.9361935458
+    },
+    {
+      "month": 10,
+      "total_cost_cny": 1148378.4165493585
+    },
+    {
+      "month": 11,
+      "total_cost_cny": 1351840.5749945368
+    },
+    {
+      "month": 12,
+      "total_cost_cny": 1938679.9975783164
+    }
+  ],
+  "validation_passed": true,
+  "input_sha256": {
+    "data1": "66b87134f5ecccd68184d3539bb1293ef039f9e0fdd955a589b9bfa7f227c377",
+    "data2": "2e95fd446bfafa0d8c59577b5c2e2ea8b3f1def20dde54a3062556f4da9b4c72",
+    "data3": "8a61b06c52bd0d639a1cc37c61a7d9f5b75edcbca718f64c1bd3498ec9f9d843",
+    "data4": "20e9c93aeab5e8e21ae4dd15587f9e190f7408692504c1319598461cd654fe71"
+  },
+  "environment": {
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "numpy": "2.3.1",
+    "scipy": "1.17.1",
+    "platform": "Windows-11-10.0.26100-SP0"
+  },
+  "source_sha256": {
+    "adjustments.py": "e7efcd0dafd7e4f74e0c519b5f1fc9315de5682c0798aeac0b4e7833db08899e",
+    "audit.py": "ac70a2d22402c0d6c3cd6e1de71cde2fbae6365aa18de9fa9e7c18f16bdcfb4c",
+    "documents.py": "a6ae5dd3a661f1e5473d1c385dc609a03faedba42ef763f228627ae1ca12488f",
+    "model.py": "76f30bb868e3472922954ade0b47021307bfc468e774e2b89188b7e196214d3a",
+    "reprice.py": "f1afe4da4be2533c8d92f028555739fd3fed845e6ce512c75ffea453b20bd100",
+    "runner.py": "63e4c070a616544fa052ccef28832ab05c6695d60116cd11d635a7be4eee6fa8",
+    "tables.py": "0eb08429a2760bc418f3d15edd0956593fac7277583b593e583242d2fc656589",
+    "verify.py": "b0a6eac05e1384587295d59b42d28fcb4130aa442126ba09cded790b4c505865",
+    "workbooks.py": "d32ae83cb1403a55c46d5f0baa4b2925bb342057e0b887b9763dbb143cad476c",
+    "__init__.py": "ddb3132771ea548a5d512cd81267ec516480170139399c9e71fe9bac9f398a3a"
+  },
+  "method_note": "causal unknown future prices; shared storage; final deviation from midnight plan; initial day zero orders"
+}

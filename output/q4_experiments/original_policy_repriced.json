@@ -1,0 +1,16 @@
+{
+  "2": {
+    "normal_cost_cny": 14289189.525002081,
+    "adjustment_cost_cny": 0.0,
+    "emergency_cost_cny": 578726.730322934,
+    "total_cost_cny": 14867916.255325016,
+    "note": "Original fixed-price actions repriced only; not reoptimized under new prices"
+  },
+  "3": {
+    "normal_cost_cny": 13428600.118028829,
+    "adjustment_cost_cny": 514916.3146127878,
+    "emergency_cost_cny": 246573.23793067678,
+    "total_cost_cny": 14190089.670572292,
+    "note": "Original fixed-price actions repriced only; not reoptimized under new prices"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "2": {
+    "chosen_C": "C0",
+    "C_minus_B_cny": 75580.65703452006,
+    "daily_mean_difference_cny": 226.289392318933,
+    "daily_mean_difference_block_bootstrap_95pct": [
+      -157.22577837686046,
+      559.4571789517595
+    ],
+    "C_lower_cost_days": 129,
+    "matched_initial_C_minus_B_cny": 76120.62778181955,
+    "joint_price_increment_over_C_fixed_cny": 49822.75424062088
+  },
+  "3": {
+    "chosen_C": "C0",
+    "C_minus_B_cny": 412344.78499841876,
+    "daily_mean_difference_cny": 1234.565224546161,
+    "daily_mean_difference_block_bootstrap_95pct": [
+      867.5206871940381,
+      1624.0144060455405
+    ],
+    "C_lower_cost_days": 72,
+    "matched_initial_C_minus_B_cny": 413291.62212486565,
+    "joint_price_increment_over_C_fixed_cny": 39776.3803776335
+  }
+}
