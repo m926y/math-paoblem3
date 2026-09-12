@@ -13,5 +13,6 @@ planned_discharge_energy=6126226.4053925090
 soc_min=1200.0000000000
 soc_max=10800.0000000000
 total_actual_recourse_energy=3521781.1187623655
+actual_balance_residual_max=4.5474735089e-13
 plan_min=0.0000000000
 emergency_nonzero_intervals=1910

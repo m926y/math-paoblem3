@@ -90,6 +90,7 @@ def main() -> None:
     daily_rows = [["日期", "正常购电成本", "紧急购电成本", "紧急购电量", "弃电量", "日总成本", "日终计划SOC", "日终实际SOC", "实际再调度电量"]]
     all_plans, all_plan_charges, all_plan_discharges = [], [], []
     all_emergencies, all_socs = [], []
+    actual_balance_residual_max = 0.0
 
     # 先用1月实际数据做状态初始化：每一天都根据当日实际负荷、光伏和电价
     # 求解一次调度，日终储电量传递给下一天。1月31日的日终储电量就是
@@ -132,6 +133,9 @@ def main() -> None:
         soc = np.asarray(simulation["soc"])
         emergency = np.asarray(simulation["emergency"])
         actual_spill = np.asarray(simulation["actual_spill"])
+        actual_balance_residual_max = max(
+            actual_balance_residual_max, float(simulation["balance_residual_max"])
+        )
         normal_cost = float(np.sum(price * grid))
         emergency_cost = float(np.sum(EMERGENCY_MULTIPLIER * price * emergency))
         total_cost = normal_cost + emergency_cost
@@ -191,6 +195,7 @@ def main() -> None:
         f"soc_min={soc_array.min():.10f}",
         f"soc_max={soc_array.max():.10f}",
         f"total_actual_recourse_energy={sum(float(row[8]) for row in daily_rows[1:]):.10f}",
+        f"actual_balance_residual_max={actual_balance_residual_max:.10e}",
         f"plan_min={plan_array.min():.10f}",
         f"emergency_nonzero_intervals={int(np.sum(emergency_array > 1e-8))}",
     ]

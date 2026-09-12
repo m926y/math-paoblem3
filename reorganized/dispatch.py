@@ -140,6 +140,7 @@ def simulate_receding_plan(
     actual_discharge = np.zeros_like(discharge_plan)
     emergency = np.zeros_like(grid)
     spill = np.zeros_like(grid)
+    balance_residual = np.zeros_like(grid)
     soc = np.empty(len(grid) + 1, dtype=float)
     soc[0] = initial_energy
 
@@ -183,6 +184,7 @@ def simulate_receding_plan(
         spill[t] = max(-residual, 0.0)
         soc[t + 1] = energy + ETA * charge - discharge / ETA
         soc[t + 1] = min(max(soc[t + 1], EMIN), EMAX)
+        balance_residual[t] = grid[t] + pv_real_kwh[t] + discharge + emergency[t] - load_real_kwh[t] - charge - spill[t]
 
     return {
         "grid": grid,
@@ -191,5 +193,6 @@ def simulate_receding_plan(
         "emergency": emergency,
         "actual_spill": spill,
         "soc": soc,
+        "balance_residual_max": float(np.abs(balance_residual).max(initial=0.0)),
         "shortage_max": float(emergency.max(initial=0.0)),
     }
